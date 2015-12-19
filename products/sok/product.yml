@@ -1,0 +1,30 @@
+%YAML 1.2
+###############################################################################
+# This is YAML description for the Service Orchestration Kit product.
+# All product settings are defined in this file as well as schemas for
+# supported environments and roles. Also you may add all shared settings
+# for all supported environments in this document
+###############################################################################
+---
+
+product:
+  namespace: .
+  name: sok
+  note: Description of the Service Orchestration Kit product
+
+  # Definition of schema for supported environments
+  env-schema: []
+  # Definition of schemas for supported roles
+  role-schemas:
+      # Product inventory service
+      - name: inventory
+        schema:
+      # Task registry service
+      - name: registry
+        schema:
+      # Task executor service
+      - name: executor
+        schema:
+      # Management console which provide command line inerface
+      - name: console
+        schema:
