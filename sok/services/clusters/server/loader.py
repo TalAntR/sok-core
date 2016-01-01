@@ -1,30 +1,8 @@
 import glob
 import os
-from abc import ABCMeta, abstractmethod
-from yaml import load_all
+import sok
 from fileinput import FileInput
-
-
-class ModelLoader(metaclass=ABCMeta):
-    """
-
-    """
-
-    @abstractmethod
-    def load_product_attributes(self, uid):
-        pass
-
-    @abstractmethod
-    def load_env_attributes(self, uid):
-        pass
-
-    @abstractmethod
-    def load_role_attributes(self, uid):
-        pass
-
-    @abstractmethod
-    def load_resource_attributes(self, uid):
-        pass
+from yaml import load_all
 
 
 class _YamlFileInput(FileInput):
@@ -49,18 +27,12 @@ class YamlLoader(object):
 
     SHARED_YML_FOLDER = '.env'
 
-    def __init__(self, path, env):
+    def __init__(self, path, env='local'):
         product = [os.path.join(path, 'product.yml')]
-        env = glob.glob(os.path.join(product_path(), env, '*'))
-        common = glob.glob(os.path.join(product_path(), self.SHARED_YML_FOLDER, '*'))
+        env = glob.glob(os.path.join(sok.product_path(), env, '*'))
+        common = glob.glob(os.path.join(sok.product_path(), self.SHARED_YML_FOLDER, '*'))
         self._inputs = _YamlFileInput(files=product + env + common)
 
     def load(self):
         return load_all(self._inputs)
-
-from sok import product_path
-
-loader = YamlLoader(product_path(), 'local')
-for d in loader.load():
-    print(d)
 
