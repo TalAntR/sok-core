@@ -1,5 +1,6 @@
 import os
 from .services.clusters import ClusterClient as Cluster
+from .version import __version__
 
 # Full path to local repository where product declarations are located
 REPOSITORY = os.path.join(os.path.dirname(__file__), "..", 'products')

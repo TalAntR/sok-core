@@ -1,8 +1,8 @@
 """
+This suite includes tests which verify an implementation of embedded
+Cluster API for the Service Orchestration Kit.
 
-This is implementation of a test suite to check the implementation for JobRunnerPool class
-
-All tests in this suite sould be passed.
+All tests in this suite must be passed.
 """
 import threading
 import unittest
@@ -18,10 +18,11 @@ class ClusterApiTest(unittest.TestCase):
     """
 
     def setUp(self):
-        self.httpd = simple_server.make_server("127.0.0.1", 14008, application)
+        host, port = '127.0.0.1', 14008
+        self.httpd = simple_server.make_server(host, port, application)
         self.server = threading.Thread(target=self.httpd.serve_forever)
         self.server.start()
-        self.client = Cluster("127.0.0.1", 14008)
+        self.client = Cluster(host, port)
 
     def tearDown(self):
         self.httpd.shutdown()
@@ -32,9 +33,6 @@ class ClusterApiTest(unittest.TestCase):
         Verifies that product is imported correctly from YAML declaration.
         """
         product = self.client.get_product('.sok')
-        print(product)
         self.assertEqual('sok',  product.name)
         self.assertEqual('.',    product.namespace)
         self.assertEqual('.sok', product.uid)
-
-
