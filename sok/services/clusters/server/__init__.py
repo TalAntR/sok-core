@@ -10,10 +10,10 @@ directory in the root of this project.
 The current implementation uses the Falcon web framework
 """
 import falcon
-from .product import ProductResource
-from .environment import EnvResource
+from .manager import HandlerFactory
 
+handlers = HandlerFactory()
 application = falcon.API()
 
-application.add_route('/registry/product', ProductResource())
-application.add_route('/registry/environment', EnvResource())
+application.add_route('/registry/product/{uid}', handlers.get_product_handler())
+application.add_route('/registry/environment', handlers.get_environment_handler())

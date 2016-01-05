@@ -8,9 +8,10 @@
 ---
 
 product:
-  namespace: .
+  namespace: ""
   name: sok
-  note: Description of the Service Orchestration Kit product
+  note: The Service Orchestration Kit product
+  workspace: ~/.sok
 
   # Definition of schema for supported environments
   env-schema: []

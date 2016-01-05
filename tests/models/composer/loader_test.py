@@ -7,7 +7,7 @@ All tests in this suite sould be passed.
 import unittest
 
 import sok
-from services.clusters.server.loader import YamlLoader
+from services.clusters.server.manager import ResourceManager
 
 
 class YamlLoaderTest(unittest.TestCase):
@@ -20,8 +20,8 @@ class YamlLoaderTest(unittest.TestCase):
         """
         Verifies that product is imported correctly from YAML declaration.
         """
-        loader = YamlLoader(sok.product_path(), 'local')
-        for d in loader.load():
+        loader = ResourceManager(sok.product_path(), 'local')
+        for d in loader.get():
             print(d)
 
 

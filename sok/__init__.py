@@ -6,10 +6,10 @@ from .version import __version__
 REPOSITORY = os.path.join(os.path.dirname(__file__), "..", 'products')
 
 
-def product_path(product='sok'):
+def product_path(product='sok', repository=REPOSITORY):
     """
     Get a full path to given product in the local repository
     :param product:
     :return:
     """
-    return os.path.abspath(os.path.join(REPOSITORY, product))
+    return os.path.abspath(os.path.join(repository, product))

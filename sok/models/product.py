@@ -14,7 +14,7 @@ class Product(object):
       ...
     """
 
-    __slots__ = ('_name', '_namespace', '_note', '_workspace')
+    __slots__ = ('_name', '_namespace', '_note', '_workspace', '_e_schema', '_r_schema')
 
     def __init__(self, namespace, name, **kwargs):
         """
@@ -24,8 +24,9 @@ class Product(object):
         self._namespace = namespace
         self._name = name
         self._note = kwargs.pop('note', '')
+        self._e_schema = kwargs.pop('env-schema', [])
+        self._r_schema = kwargs.pop('role-schema', [])
         self._workspace = kwargs.pop('workspace', tempfile.gettempdir())
-        self._context = kwargs
 
     @property
     def name(self):
@@ -58,7 +59,7 @@ class Product(object):
         Gets unique identifier for the product
         :return:
         """
-        return self.make_uid(self._name, self._namespace)
+        return '.'.join((self._namespace, self._name))
 
     @property
     def workspace(self):

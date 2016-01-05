@@ -34,5 +34,5 @@ class ClusterApiTest(unittest.TestCase):
         """
         product = self.client.get_product('.sok')
         self.assertEqual('sok',  product.name)
-        self.assertEqual('.',    product.namespace)
+        self.assertEqual('',     product.namespace)
         self.assertEqual('.sok', product.uid)
