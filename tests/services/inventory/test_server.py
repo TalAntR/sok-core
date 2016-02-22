@@ -7,7 +7,7 @@ All tests in this suite must be passed.
 import threading
 import unittest
 from sok import Cluster
-from sok.services.clusters.server import application
+from sok.services.inventory.server import application
 from wsgiref import simple_server
 
 

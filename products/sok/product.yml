@@ -4,28 +4,33 @@
 # All product settings are defined in this file as well as schemas for
 # supported environments and roles. Also you may add all shared settings
 # for all supported environments in this document
+#
+# Definition of the product object.
+# Please include this file in this manner:
+# product: !SOK:Include <absolute or relative path>
+#
 ###############################################################################
 ---
+!SOK:Product
 
-product:
-  namespace: ""
-  name: sok
-  note: The Service Orchestration Kit product
-  workspace: ~/.sok
+namespace: ""
+name: sok
+note: The Service Orchestration Kit product
+workspace: ~/.sok
 
-  # Definition of schema for supported environments
-  env-schema: []
-  # Definition of schemas for supported roles
-  role-schemas:
-      # Product inventory service
-      - name: inventory
-        schema:
-      # Task registry service
-      - name: registry
-        schema:
-      # Task executor service
-      - name: executor
-        schema:
-      # Management console which provide command line inerface
-      - name: console
-        schema:
+# Validation schemas for product environments and roles
+schemas:
+  env: []
+  roles:
+    # Product inventory service
+    - name: inventory
+      schema:
+    # Task registry service
+    - name: registry
+      schema:
+    # Task executor service
+    - name: executor
+      schema:
+    # Management console which provide command line inerface
+    - name: console
+      schema:

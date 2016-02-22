@@ -1,9 +1,26 @@
-from .imodel import IModel
+import os
 
 
-class OpsEnv(IModel):
+class Environment(object):
     """
-    This class provides settings for build or deployment operations.
+    This class represents an single- or multi server environment where
+    all product components should be installed. Also it may provide global
+    settings which can be defined by users for configuration the components
+    and services.
+
+    YAML definition
+    environment: !SOK:Environment
+        name: <>
+        note: <some comments about product>
+        product: <a reference on a related product>
+        workspace: <working directory on build server during deployment phase>
+        ...
+        auth:
+            user:
+            password:
+            key:
+        ...
+
 
     It always contains several required attributes:
       - name is an string identification of an environment
@@ -13,19 +30,14 @@ class OpsEnv(IModel):
       - workspace - a working directory on the local host.
     """
 
-    __slots__ = ('_name', '_product', '_roles', 'workspace', 'templates', 'hosts')
+    __slots__ = ('_name', '_product', '_roles', '_note', '_workspace')
 
-
-    def __init__(self, name, product, roles, **kwargs):
-        self.hosts = {}
+    def __init__(self, name, product, roles=[], **kwargs):
         self._name = name
         self._product = product
         self._roles = roles
-        self.workspace = kwargs.pop('workspace', os.getcwd())
-        # for k, v in kwargs.iteritems():
-        #     setattr(self, k, v)
-        #TODO: convert passed or default value to list
-        self.templates = kwargs.pop('templates', os.path.join(self.workspace, 'templates'))
+        self._note = kwargs.pop('note', '')
+        self._workspace = kwargs.pop('workspace', os.path.join(product.workspace, self._name))
 
     @property
     def product(self):
@@ -42,22 +54,34 @@ class OpsEnv(IModel):
         return self._name
 
     @property
+    def note(self):
+        """
+        Gets user-friendly description for this environment.
+        """
+        return self._note
+
+    @property
+    def workspace(self):
+        """
+        A path to workspace for current environment
+        """
+        return self._workspace
+
+    @property
     def uid(self):
         """
         Gets unique identifier of the environment
         """
-        return self.make_uid(self._name, self._product.name, self._product.namespace)
-
-    def _template_locations(self):
-        """
-        This generator returns full path for each directory in the templates_home property.
-        Just for Linux hosts.
-        """
-        for path in self.templates_home:
-            yield path if path[0] == '/' else self.workspace + '/' + path
+        return ':'.join((self._product.uid, self._name))
 
     def __iter__(self):
         """
         Gets an iterator by all roles in the environment
         """
-        return self._roles.itervalues()
+        return iter(self._roles)
+
+    def __repr__(self):
+        """
+        Gets an iterator by all roles in the environment
+        """
+        return "<Environment: {0}:{1}>".format(self._product.uid, self._name)

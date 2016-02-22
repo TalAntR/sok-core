@@ -1,0 +1,29 @@
+########################
+#
+########################
+
+roles: &roles
+  # Describe location of the inventory service
+  inventory: !SOK:Role
+    - manager: sok-inventory
+      services:
+        - file:///var/run/sok/inventory.sock
+
+  # Describe a store for tasks for supported roles
+  registry: !SOK:Role
+    - manager: sok-registry
+      services:
+        - file:///var/run/sok/registry.sock
+
+  # Describe a service for task execution
+  executor: !SOK:Role
+    - manager: sok-executor
+      services:
+        - file:///var/run/sok/executor.sock
+
+  # Describe command line client
+  console: !SOK:Role
+    - manager: sok-console
+      hosts: *console
+      services:
+        - http://127.0.0.1:10080

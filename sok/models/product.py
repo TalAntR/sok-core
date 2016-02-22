@@ -6,7 +6,7 @@ class Product(object):
     This class represents an information system (IS).
 
     YAML definition
-    product: !!Product
+    product: !SOK:Product
       name: <product-name>
       namespace: <product-namespace>
       note: <some comments about product>
@@ -14,7 +14,7 @@ class Product(object):
       ...
     """
 
-    __slots__ = ('_name', '_namespace', '_note', '_workspace', '_e_schema', '_r_schema')
+    __slots__ = ('_name', '_namespace', '_note', '_workspace', '_schemas')
 
     def __init__(self, namespace, name, **kwargs):
         """
@@ -24,8 +24,7 @@ class Product(object):
         self._namespace = namespace
         self._name = name
         self._note = kwargs.pop('note', '')
-        self._e_schema = kwargs.pop('env-schema', [])
-        self._r_schema = kwargs.pop('role-schema', [])
+        self._schemas = kwargs.pop('schemas', {})
         self._workspace = kwargs.pop('workspace', tempfile.gettempdir())
 
     @property
@@ -59,7 +58,7 @@ class Product(object):
         Gets unique identifier for the product
         :return:
         """
-        return '.'.join((self._namespace, self._name))
+        return ':'.join((self._namespace, self._name))
 
     @property
     def workspace(self):
@@ -70,4 +69,4 @@ class Product(object):
         return self._workspace
 
     def __repr__(self):
-        return "<Product: {0}:{1}>".format(self._namespace, self._name)
+        return "<Product: {0}>".format(self.uid)
